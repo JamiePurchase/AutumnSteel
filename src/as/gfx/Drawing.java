@@ -63,9 +63,20 @@ public class Drawing
         }
         return image;
     }
+        
+    public static BufferedImage resize(BufferedImage imgOld, int newW, int newH)
+    { 
+        Image imgTemp = imgOld.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+        BufferedImage imgNew = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = imgNew.createGraphics();
+        g2d.drawImage(imgTemp, 0, 0, null);
+        g2d.dispose();
+        return imgNew;
+    }
     
     public static void rotate(Graphics g, Image image, ImageObserver observer)
     {
+        // NOTE: encorporate the way in which the resize method creates and returns a BufferedImage
         AffineTransform identity = new AffineTransform();
         Graphics2D g2d = (Graphics2D)g;
         AffineTransform trans = new AffineTransform();

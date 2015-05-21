@@ -160,8 +160,12 @@ public class Battle
             // Temp
             if(this.cardHold)
             {
-                // NOTE: may want to use a separate mouse movement listener for this
-                Drawing.drawImageOpaque(g, Drawing.getImage("interface/cardFS.png"), Engine.getMousePoint().x - 50, Engine.getMousePoint().y - 75, 0.5f);
+                // NOTE: may want to use a separate mouse movement listener for this (dragging?)
+                //Drawing.drawImageOpaque(g, Drawing.getImage("interface/cardFS.png"), Engine.getMousePoint().x - 50, Engine.getMousePoint().y - 75, 0.5f);
+                
+                // NOTE: we need to use the BufferedImage created by getAnimImage() and draw that with opacity
+                Card cardTemp = new Card("1");
+                cardTemp.renderOpaque(g);
             }
         }
         
