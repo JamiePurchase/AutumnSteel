@@ -28,6 +28,8 @@ public class Battle
     private int unitAllyCount;
     private Unit[] unitEnemy = new Unit[8];
     private int unitEnemyCount;
+    private boolean unitSelect;
+    private int unitSelectAlly;
     
     // Turns
     private boolean turnStart;
@@ -69,10 +71,13 @@ public class Battle
         
         // Units (Ally)
         this.unitAlly[0] = new Unit(0, "Samurai", "FRONT", 1);
+        this.playerTileAlly[1][1].setUnit(true, 0);
         this.unitAlly[1] = new Unit(0, "Archer", "BACK", 2);
         this.unitAlly[2] = new Unit(0, "Knight", "FRONT", 3);
         this.unitAlly[3] = new Unit(0, "Mage", "BACK", 0);
         this.unitAllyCount = 4;
+        this.unitSelect = false;
+        this.unitSelectAlly = 0;
         
         // Units (Enemy)
         this.unitEnemy[0] = new Unit(1, "Archer", "BACK", 1);
@@ -195,18 +200,48 @@ public class Battle
         {
             this.unitEnemy[unit].render(g);
         }
-        
-        // Temp
-        //if(this.tempSelect) {g.drawImage(Drawing.getImage("units/select1.png"), 300, 300, null);}
     }
     
     public void touch(MouseEvent e)
     {
-        NexusRect nr = new NexusRect(300, 300, 100, 100);
-        if(nr.getCollide(e.getLocationOnScreen()))
+        touchInterface(e);
+        touchTile(e);
+        //touchUnit(e);
+    }
+    
+    public void touchInterface(MouseEvent e)
+    {
+    }
+    
+    public void touchTile(MouseEvent e)
+    {
+        for(int row = 0; row <= 1; row++)
         {
-            this.tempSelect = true;
+            for(int tile = 0; tile < 4; tile++)
+            {
+                if(this.playerTileAlly[row][tile].getCollide(e.getLocationOnScreen()))
+                {
+                    if(this.playerTileAlly[row][tile].getUnit())
+                    {
+                        this.unitAlly[this.playerTileAlly[row][tile].getUnitAlly()].setSelect(true);
+                        this.unitSelect = true;
+                        this.unitSelectAlly = this.playerTileAlly[row][tile].getUnitAlly();
+                    }
+                }
+            }
         }
+    }
+    
+    public void touchUnit(MouseEvent e)
+    {
+        /*for(int unit = 0; unit < this.unitAllyCount; unit++)
+        {
+            if(this.playerAlly[unit].getCollide(e.getLocationOnScreen()))
+            {
+                this.unitSelect = true;
+                this.unitSelectAlly = unit;
+            }
+        }*/
     }
     
 }

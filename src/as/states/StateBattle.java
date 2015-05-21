@@ -11,6 +11,7 @@ import as.gfx.Drawing;
 import as.gui.NexusRect;
 import as.server.Request;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -63,6 +64,11 @@ public class StateBattle extends State
     public void touch(MouseEvent e)
     {
         this.battle.touch(e);
+    }
+    
+    public void type(KeyEvent e)
+    {
+        
     }
     
 }

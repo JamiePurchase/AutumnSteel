@@ -9,6 +9,7 @@ import as.gfx.Fonts;
 import as.gfx.Text;
 import as.server.Request;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -83,15 +84,21 @@ public class StateInit extends State
         {
             if(this.actionTick > 60)
             {
-                // NOTE: we should now consider the login state
-                Engine.setAccount(new Account(1));
+                //Engine.setState(new StateLogin());
                 
+                // Temp
+                Engine.setAccount(new Account(1));
                 Engine.setState(new StateTitle());
             }
         }
     }
     
     public void touch(MouseEvent e)
+    {
+        
+    }
+    
+    public void type(KeyEvent e)
     {
         
     }

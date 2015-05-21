@@ -13,6 +13,7 @@ import as.gui.MenuOption;
 import as.server.Request;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
@@ -172,5 +173,10 @@ public class StateTitle extends State
                 this.listenTouch = false;
             }
         }
+    }
+    
+    public void type(KeyEvent e)
+    {
+        
     }
 }

@@ -11,6 +11,7 @@ public class Colour
         if(colour == "SHADOW") {return getColorRGB(25, 25, 25);}
         if(colour == "STEEL") {return getColorRGB(125, 125, 125);}
         if(colour == "RED") {return getColorRGB(170, 0, 0);}
+        if(colour == "RED2") {return getColorRGB(45, 0, 0);}
         return Color.WHITE;
     }
     

@@ -21,6 +21,7 @@ public class Unit
     private int statDefend;
     
     private boolean actionReady;
+    private boolean select;
     
     // Effect
     private Effect[] effectData = new Effect[10];
@@ -38,6 +39,9 @@ public class Unit
         this.formCol = formCol;
         this.actionReady = false;
         this.image = Drawing.getImage("units/" + this.unitCode + "/0.png");
+        
+        // Temp
+        this.select = false;
     }
     
     private BufferedImage getDrawImage()
@@ -65,8 +69,19 @@ public class Unit
         return (100 * this.formCol) + 200;
     }
     
+    public boolean getSelect()
+    {
+        return this.select;
+    }
+    
     public void render(Graphics g)
     {
+        if(this.select) {g.drawImage(Drawing.getImage("units/select1.png"), this.getDrawPosX(), this.getDrawPosY(), null);}
         g.drawImage(this.getDrawImage(), this.getDrawPosX(), this.getDrawPosY(), null);
+    }
+    
+    public void setSelect(boolean select)
+    {
+        this.select = select;
     }
 }

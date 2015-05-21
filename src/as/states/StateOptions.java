@@ -5,6 +5,7 @@ import as.gfx.Drawing;
 import as.gui.Frame;
 import as.gui.MenuOption;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 public class StateOptions extends State
@@ -64,5 +65,10 @@ public class StateOptions extends State
                 this.optionSelectID = x;
                 this.optionSelectTick = 0;
                 this.listenTouch = false;*/
+    }
+    
+    public void type(KeyEvent e)
+    {
+        
     }
 }
