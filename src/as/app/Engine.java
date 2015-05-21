@@ -52,11 +52,11 @@ public class Engine extends JPanel implements Runnable
         this.display = new Display();
 
         // Initial State
-        //this.setState(new StateInit());
+        this.setState(new StateInit());
         
         // Temp
-        this.setAccount(new Account(1));
-        this.setState(new StateTitle());
+        /*this.setAccount(new Account(1));
+        this.setState(new StateTitle());*/
     }
     
     public static Account getAccount()
