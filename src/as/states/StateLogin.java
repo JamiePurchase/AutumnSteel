@@ -98,9 +98,9 @@ public class StateLogin extends State
         inputPassword.tick();
     }
     
-    public void touch(MouseEvent e)
+    public void touch(MouseEvent e, boolean p)
     {
-        if(this.listenTouch)
+        if(this.listenTouch && p)
         {
             // NOTE: focus should be a property of this class of type abstract form control
             if(inputUsername.getCollide(e.getPoint()))

@@ -1,23 +1,36 @@
 package as.battle;
 
+import as.card.Card;
 import as.card.Deck;
 
 public class Player
 {
     // Player
     private int accountID;
+    private String accountUsername;
     
     // Stats
     private int statAction;
     private int statHealth;
     
-    // Cards
+    // Cards (Deck)
     private Deck cardDeck;
+    private int cardDeckCount;
+    
+    // Cards (Hand)
+    private Card[] cardHand = new Card[30];
+    private int cardHandCount;
     
     public Player(int accountID)
     {
         // Player
         this.accountID = accountID;
+        this.accountUsername = "Jamie";
+    }
+    
+    public String getAccountUsername()
+    {
+        return this.accountUsername;
     }
     
     public Deck getCardDeck()
@@ -40,5 +53,10 @@ public class Player
     public void setCardDeck(Deck deck)
     {
         this.cardDeck = deck;
+    }
+    
+    public void setStatAction(int value)
+    {
+        this.statAction = value;
     }
 }

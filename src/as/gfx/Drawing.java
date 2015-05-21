@@ -3,6 +3,7 @@ package as.gfx;
 import as.app.Display;
 import as.app.Engine;
 import as.debug.Console;
+import java.awt.AlphaComposite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -16,6 +17,25 @@ import javax.imageio.ImageIO;
 
 public class Drawing
 {
+    public static void drawImageOpaque(Graphics g, BufferedImage image, int posX, int posY, float alpha)
+    {
+        // Set Opacity
+        Graphics2D g2D = (Graphics2D) g;
+        AlphaComposite composite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
+        g2D.setComposite(composite);
+
+        // Draw Image
+        g2D.drawImage(image, posX, posY, null);
+
+        // Clear Opacity
+        composite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f);
+        g2D.setComposite(composite);
+    }
+
+    public static void fadeScreen(Graphics g)
+    {
+        Drawing.drawImageOpaque(g, getImage("interface/fadeBlack.png"), 0, 0, 0.75f);
+    }
         
     public static BufferedImage flipImage(BufferedImage image)
     {

@@ -25,7 +25,7 @@ public class StateLobby extends State
         
     }
     
-    public void touch(MouseEvent e)
+    public void touch(MouseEvent e, boolean p)
     {
         
     }

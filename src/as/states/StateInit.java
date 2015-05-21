@@ -67,6 +67,7 @@ public class StateInit extends State
                 try
                 {
                     response = new Request("connect").get();
+                    // What if this takes too long?
                 }
                 catch (Exception ex)
                 {
@@ -93,7 +94,7 @@ public class StateInit extends State
         }
     }
     
-    public void touch(MouseEvent e)
+    public void touch(MouseEvent e, boolean p)
     {
         
     }

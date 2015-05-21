@@ -155,9 +155,9 @@ public class StateTitle extends State
         if(this.optionSelectID == 3) {Engine.setState(new StateOptions());}
     }
     
-    public void touch(MouseEvent e)
+    public void touch(MouseEvent e, boolean p)
     {
-        if(this.listenTouch) {touchOptions(e);}
+        if(this.listenTouch && p) {touchOptions(e);}
     }
     
     public void touchOptions(MouseEvent e)

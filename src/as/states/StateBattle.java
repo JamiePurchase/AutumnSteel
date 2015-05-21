@@ -47,6 +47,7 @@ public class StateBattle extends State
     public void tick()
     {
         tickServer();
+        this.battle.tick();
     }
     
     public void tickServer()
@@ -61,9 +62,9 @@ public class StateBattle extends State
         }
     }
     
-    public void touch(MouseEvent e)
+    public void touch(MouseEvent e, boolean p)
     {
-        this.battle.touch(e);
+        if(p) {this.battle.touch(e, p);}
     }
     
     public void type(KeyEvent e)

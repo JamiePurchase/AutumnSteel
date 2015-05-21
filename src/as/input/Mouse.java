@@ -25,7 +25,13 @@ public class Mouse extends MouseAdapter implements MouseMotionListener
     @Override
     public void mousePressed (MouseEvent e)
     {
-        Engine.touch(e);
+        Engine.touch(e, true);
+    }
+    
+    @Override
+    public void mouseReleased (MouseEvent e)
+    {
+        Engine.touch(e, false);
     }
 
 }

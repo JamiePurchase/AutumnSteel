@@ -11,6 +11,7 @@ public class BoardTile
     private NexusRect nexus;
     private boolean unit;
     private int unitAlly;
+    private int highlight;
     
     public BoardTile(int posX, int posY)
     {
@@ -19,6 +20,7 @@ public class BoardTile
         this.nexus = new NexusRect(posX, posY, 100, 100);
         this.unit = false;
         this.unitAlly = 0;
+        this.highlight = 0;
     }
     
     public boolean getCollide(Point point)
@@ -43,9 +45,14 @@ public class BoardTile
     
     public void render(Graphics g, boolean grid)
     {
-        if(this.nexus.getHover())
+        if(this.nexus.getHover() && this.getUnit())
         {
-            g.setColor(Colour.getColorRGB(125, 125, 125));
+            g.setColor(Colour.getColorRGB(220, 235, 80));
+            g.fillRect(this.posX, this.posY, 100, 100);
+        }
+        if(this.highlight > 0)
+        {
+            g.setColor(Colour.getColorRGB(50, 180, 50));
             g.fillRect(this.posX, this.posY, 100, 100);
         }
         if(grid)
@@ -53,6 +60,11 @@ public class BoardTile
             g.setColor(Colour.getColor("STEEL"));
             g.drawRect(this.posX, this.posY, 100, 100);
         }
+    }
+    
+    public void setHighlight(int highlight)
+    {
+        this.highlight = highlight;
     }
     
     public void setUnit(boolean unit, int ally)
