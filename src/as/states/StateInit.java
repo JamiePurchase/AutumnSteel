@@ -30,7 +30,9 @@ public class StateInit extends State
     public void render(Graphics g)
     {
         g.drawImage(Drawing.getImage("interface/logo.png"), 333, 50, null);
-        g.drawImage(Drawing.getImage("interface/java2.png"), 608, 250, null);
+        g.drawImage(Drawing.getImage("interface/php.png"), 208, 325, null);
+        g.drawImage(Drawing.getImage("interface/java2.png"), 608, 275, null);
+        g.drawImage(Drawing.getImage("interface/mySql.png"), 908, 300, null);
         renderAction(g);
         renderInformation(g);
     }
@@ -39,7 +41,7 @@ public class StateInit extends State
     {
         g.setFont(Fonts.getFont("Standard"));
         g.setColor(Colour.getColor("RED"));
-        Text.write(g, this.actionString, 683, 500, "CENTER");
+        Text.write(g, this.actionString, 683, 718, "CENTER");
     }
     
     public void renderInformation(Graphics g)

@@ -8,6 +8,8 @@ import as.gfx.Fonts;
 import as.gfx.Text;
 import as.gui.NexusRect;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 public class Card
@@ -39,8 +41,14 @@ public class Card
     private BufferedImage getAnimImage(String size)
     {
         // NOTE: combine layers (card, picture, text, icons)
-        BufferedImage image = Drawing.getImage("interface/cardBack.png");
+        BufferedImage image = Drawing.getImage("interface/cardBack2.png");
         //
+        
+        // Test 
+        //BufferedImage imgNew = new BufferedImage(100, 150, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = image.createGraphics();
+        g2d.drawImage(Drawing.getImage("cards/DarkKnight.png"), 50, 50, null);
+        g2d.dispose();
         
         // Return the image of the necessary size
         if(size == "SMALL") {return Drawing.resize(image, 100, 150);}

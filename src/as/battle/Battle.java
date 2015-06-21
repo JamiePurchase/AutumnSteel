@@ -10,6 +10,7 @@ import as.gfx.Fonts;
 import as.gfx.Text;
 import as.gui.BoardTile;
 import as.gui.NexusRect;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -22,7 +23,10 @@ public class Battle
     private String battleBkg;
     private boolean battlePause;
     private String battlePhase;
-    private int battlePhaseTick;
+    private int battlePhaseTick, battlePhaseTickMax;
+    
+    // Display
+    private boolean displayGrid;
     
     // Players
     private Player playerAlly;
@@ -59,10 +63,14 @@ public class Battle
         // Battle
         this.battleID = battleID;
         this.battleType = type;
-        this.battleBkg = "forest";
+        this.battleBkg = "forest2";
         this.battlePause = false;
         this.battlePhase = "INIT";
         this.battlePhaseTick = 0;
+        this.battlePhaseTickMax = 30;
+        
+        // Display
+        this.displayGrid = false;
         
         // Player (Ally)
         this.playerAlly = host;
@@ -98,9 +106,10 @@ public class Battle
         this.unitSelectAlly = 0;
         
         // Units (Enemy)
-        this.unitEnemy[0] = new Unit(1, "Archer", "BACK", 1);
+        this.unitEnemyCount = 0;
+        /*this.unitEnemy[0] = new Unit(1, "Archer", "BACK", 1);
         this.unitEnemy[1] = new Unit(1, "Berserker", "FRONT", 2);
-        this.unitEnemyCount = 2;
+        this.unitEnemyCount = 2;*/
         
         // Cards
         this.cardHold = false;
@@ -115,6 +124,11 @@ public class Battle
         
         // Input
         this.inputListen = true;
+    }
+    
+    public String getBattlePhase()
+    {
+        return this.battlePhase;
     }
     
     public Player getPlayerAlly()
@@ -145,8 +159,9 @@ public class Battle
         renderTiles(g);
         renderDeck(g);
         renderUnits(g);
+        renderTurnInfo(g);
         renderBanner(g);
-        renderInterface(g);
+        //renderInterface(g);
         
         if(this.battlePhase == "CARD_INIT")
         {
@@ -183,24 +198,24 @@ public class Battle
         // Background
         /*g.setColor(Colour.getColor("STEEL"));
         g.fillRect(0, 0, 400, 150);
-        g.fillRect(966, 0, 400, 150);
+        g.fillRect(966, 0, 400, 150);*/
         
         // Border
         g.setColor(Colour.getColor("BLACK"));
-        g.fillRect(0, 149, 400, 2);
-        g.fillRect(399, 0, 2, 150);*/
+        g.drawRect(225, 50, 300, 50);
+        //g.fillRect(399, 0, 2, 150);
         
         // Text
         g.setFont(Fonts.getFont("Standard"));
         g.setColor(Colour.getColor("WHITE"));
-        Text.write(g, this.playerAlly.getAccountUsername(), 50, 50);
+        Text.write(g, this.playerAlly.getAccountUsername(), 250, 50);
         Text.write(g, this.playerEnemy.getAccountUsername(), 1316, 50, "RIGHT");
         
         // Player
-        //new Banner(0, 1).render(g, 50, 25);
+        new Banner(0, 1).render(g, 50, 25);
         
         // Opponent
-        //new Banner(0, 1).render(g, 1116, 25);
+        new Banner(0, 1).render(g, 1116, 25);
     }
     
     public void renderCardStart(Graphics g)
@@ -231,7 +246,13 @@ public class Battle
     
     public void renderDeck(Graphics g)
     {
+        // Deck Image
         g.drawImage(Drawing.getImage("interface/deck.png"), 50, 450, null);
+        
+        // Deck Statistics
+        g.setFont(Fonts.getFont("Standard"));
+        g.setColor(Colour.getColor("BLACK"));
+        g.drawString("DECK: " + playerAlly.getCardDeck().getCount(), 60, 600);
     }
     
     public void renderHand(Graphics g)
@@ -256,6 +277,13 @@ public class Battle
     
     public void renderTiles(Graphics g)
     {
+        // Grid
+        if(this.displayGrid)
+        {
+            g.setColor(Color.BLACK);
+            g.drawRect(300, 300, 100, 100);
+        }
+        
         // Ally
         for(int tile = 0; tile < 4; tile++)
         {
@@ -269,6 +297,16 @@ public class Battle
             this.playerTileEnemy[0][tile].render(g);
             this.playerTileEnemy[1][tile].render(g);
         }
+    }
+    
+    public void renderTurnInfo(Graphics g)
+    {
+        // NOTE: consider the styling of the frames later
+        g.setColor(Color.BLACK);
+        g.fillRect(608, 0, 150, 50);
+        g.setFont(Fonts.getFont("Standard"));
+        g.setColor(Colour.getColor("RED"));
+        Text.write(g, "Turn Info", 683, 25, "CENTER");
     }
     
     public void renderUnits(Graphics g)
@@ -286,12 +324,20 @@ public class Battle
         }
     }
     
+    public void setBattlePhase(String phase, int tick, boolean listen)
+    {
+        this.battlePhase = phase;
+        this.battlePhaseTick = 0;
+        this.battlePhaseTickMax = tick;
+        this.inputListen = listen;
+    }
+    
     public void tick()
     {
         if(this.battlePhase == "INIT")
         {
             this.battlePhaseTick += 1;
-            if(this.battlePhaseTick > 30)
+            if(this.battlePhaseTick > this.battlePhaseTickMax)
             {
                 this.battlePhase = "CARD_INIT";
                 this.battlePhaseTick = 0;
@@ -301,7 +347,7 @@ public class Battle
         if(this.battlePhase == "CARD_DONE")
         {
             this.battlePhaseTick += 1;
-            if(this.battlePhaseTick > 30)
+            if(this.battlePhaseTick > this.battlePhaseTickMax)
             {
                 this.battlePhase = "TURN";
                 this.battlePhaseTick = 0;
@@ -389,6 +435,7 @@ public class Battle
                         this.unitAlly[this.playerTileAlly[row][tile].getUnitAlly()].setSelect(true);
                         this.unitSelect = true;
                         this.unitSelectAlly = this.playerTileAlly[row][tile].getUnitAlly();
+                        this.displayGrid = true;
                     }
                 }
             }

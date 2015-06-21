@@ -14,7 +14,7 @@ public class Tutorial
         // Create Player
         Player player = new Player(Engine.getAccount().getAccountID());
         player.setStatAction(3);
-        Deck playerDeck = new Deck(new Froth("decks/deck1"));
+        player.setCardDeck(new Deck(new Froth("decks/deck1")));
         
         // Create Opponent Object
         Player opponent = new Player(0);

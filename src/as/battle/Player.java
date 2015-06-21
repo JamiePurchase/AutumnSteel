@@ -15,7 +15,6 @@ public class Player
     
     // Cards (Deck)
     private Deck cardDeck;
-    private int cardDeckCount;
     
     // Cards (Hand)
     private Card[] cardHand = new Card[30];
@@ -36,6 +35,11 @@ public class Player
     public Deck getCardDeck()
     {
         return this.cardDeck;
+    }
+    
+    public int getCardDeckCount()
+    {
+        return this.cardDeck.getCount();
     }
     
     //public getCardHand()
