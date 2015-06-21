@@ -1,75 +1,60 @@
 package as.states;
 
-import as.account.Account;
-import as.account.Banner;
-import as.battle.Battle;
-import as.card.Card;
-import as.battle.Unit;
-import as.debug.Console;
 import as.gfx.Colour;
 import as.gfx.Drawing;
-import as.gui.NexusRect;
-import as.server.Request;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class StateBattle extends State
 {
-    // Battle
-    private Battle battle;
     
-    // Server
-    private int serverTick;
-    
-    // Temp
-    private boolean tempSelect;
-    
-    public StateBattle(Battle battle)
+    public StateBattle()
     {
-        // Battle
-        this.battle = battle;
         
-        // Server
-        this.serverTick = 0;
-        
-        // Temp
-        this.tempSelect = false;
     }
     
     public void render(Graphics g)
     {
-        this.battle.render(g);
+        // TEMP
+        g.setColor(Colour.getColorRGB(240, 228, 184));
+        g.fillRect(0, 0, 1366, 768);
+        
+        // TEMP
+        g.drawImage(Drawing.getImage("forces/tile2.png"), 500, 200, null);
+        g.drawImage(Drawing.getImage("forces/tile2.png"), 600, 200, null);
+        g.drawImage(Drawing.getImage("forces/tile2.png"), 700, 200, null);
+        //
+        g.drawImage(Drawing.getImage("forces/tile2.png"), 450, 275, null);
+        g.drawImage(Drawing.getImage("forces/tile2.png"), 550, 275, null);
+        g.drawImage(Drawing.getImage("forces/tile2.png"), 650, 275, null);
+        g.drawImage(Drawing.getImage("forces/tile2.png"), 750, 275, null);
+        //
+        g.drawImage(Drawing.getImage("forces/tile2.png"), 500, 350, null);
+        g.drawImage(Drawing.getImage("forces/tile2.png"), 600, 350, null);
+        g.drawImage(Drawing.getImage("forces/tile2.png"), 700, 350, null);
+        
+        // TEMP
+        g.drawImage(Drawing.getImage("forces/standard1.png"), 470, 260, null);
+        g.drawImage(Drawing.getImage("units(old)/samurai/0.png"), 510, 330, null);
+        
+        // TEMP
+        g.drawImage(Drawing.getImage("forces/building1.png"), 700, 300, null);
     }
     
     public void tick()
     {
-        tickServer();
-        this.battle.tick();
+        //
     }
-    
-    public void tickServer()
-    {
-        this.serverTick += 1;
-        if(this.serverTick > 120)
-        {
-            // Temp
-            //new Account().updateOnline();
-            
-            this.serverTick = 0;
-        }
-    }
-    
+
     public void touch(MouseEvent e, boolean p)
     {
-        if(p) {this.battle.touch(e, p);}
+        //
     }
-    
+
     public void type(KeyEvent e)
     {
-        
+        //
     }
     
 }

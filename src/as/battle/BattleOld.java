@@ -15,7 +15,7 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
-public class Battle
+public class BattleOld
 {
     // Battle
     private int battleID;
@@ -58,7 +58,7 @@ public class Battle
     private boolean tempSelect;
     private NexusRect tempNexus;
     
-    public Battle(int battleID, String type, Player host, Player enemy)
+    public BattleOld(int battleID, String type, Player host, Player enemy)
     {
         // Battle
         this.battleID = battleID;
@@ -190,10 +190,16 @@ public class Battle
     
     public void renderBackground(Graphics g)
     {
-        g.drawImage(Drawing.getImage("background/" + this.battleBkg + ".png"), 0, 0, null);
+        //g.drawImage(Drawing.getImage("background/" + this.battleBkg + ".png"), 0, 0, null);
+        g.drawImage(Drawing.getImage("background/table.png"), 0, 0, null);
     }
     
     public void renderBanner(Graphics g)
+    {
+        g.drawImage(Drawing.getImage("interface/hudPlayers.png"), 0, 0, null);
+    }
+    
+    public void renderBannerOld(Graphics g)
     {
         // Background
         /*g.setColor(Colour.getColor("STEEL"));

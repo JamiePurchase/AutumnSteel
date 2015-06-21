@@ -4,7 +4,7 @@ import as.gfx.Text;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class BattleTutorial extends Battle
+public class BattleTutorial extends BattleOld
 {
     private int tutorialStage;
     

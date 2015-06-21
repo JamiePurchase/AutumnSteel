@@ -5,6 +5,7 @@ import as.debug.Console;
 import as.input.Keyboard;
 import as.input.Mouse;
 import as.states.State;
+import as.states.StateBattle;
 import as.states.StateInit;
 import as.states.StateLogin;
 import as.states.StateTitle;
@@ -52,11 +53,12 @@ public class Engine extends JPanel implements Runnable
         this.display = new Display();
 
         // Initial State
-        this.setState(new StateInit());
+        //this.setState(new StateInit());
         
         // Temp
         /*this.setAccount(new Account(1));
         this.setState(new StateTitle());*/
+        this.setState(new StateBattle());
     }
     
     public static Account getAccount()

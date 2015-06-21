@@ -1,7 +1,7 @@
 package as.execute;
 
 import as.app.Engine;
-import as.battle.Battle;
+import as.battle.BattleOld;
 import as.battle.Player;
 import as.card.Deck;
 import as.file.Froth;
@@ -22,9 +22,9 @@ public class Tutorial
         //enemyDeck[0] = new Card("", "Card 1", "INFANTRY");
         
         // Create Battle Object
-        Battle battle = new Battle(0, "TUTORIAL", player, opponent);
+        BattleOld battle = new BattleOld(0, "TUTORIAL", player, opponent);
         
         // Launch Battle State
-        Engine.setState(new StateBattle(battle));
+        //Engine.setState(new StateBattle(battle));
     }
 }
