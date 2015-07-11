@@ -14,8 +14,8 @@ public class Colour
         if(colour == "RED2") {return getColorRGB(45, 0, 0);}
         
         // NEW
-        if(colour == "PANEL_BORDER") {return getColorRGB(0, 0, 0);}
-        if(colour == "PANEL_SHADOW") {return getColorRGB(200, 200, 200);}
+        if(colour == "PANEL_BACKGROUND_FORCE") {return getColorRGB(200, 170, 140);}
+        if(colour == "PANEL_BORDER_FORCE") {return getColorRGB(175, 125, 100);}
         if(colour == "DEV_NEXUS") {return getColorRGB(50, 125, 75);}
         if(colour == "MENU_BACKGROUND") {return getColorRGB(240, 228, 184);}
         if(colour == "MENU_TEXT") {return getColorRGB(0, 0, 0);}

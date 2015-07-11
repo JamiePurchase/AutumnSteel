@@ -7,6 +7,8 @@ import as.battle.EntityUnit;
 import as.battle.Force;
 import as.battle.Node;
 import as.battle.Panel;
+import as.battle.PanelEntity;
+import as.battle.PanelForce;
 import as.battle.PanelMenu;
 import as.battle.Terrain;
 import as.battle.action.Unit;
@@ -56,6 +58,8 @@ public class StateBattle extends State
     // Interface
     private Panel uiInfo;
     // NOTE: use a subclass of panel with text and pictures?
+    private PanelEntity uiEntity;
+    private PanelForce uiForce;
     private PanelMenu uiPause;
     
     // Selection
@@ -88,10 +92,6 @@ public class StateBattle extends State
         this.selectUnit = null;
         this.selectUnitAction = new ArrayList();
         this.selectBuilding = null;
-        
-        // Interface
-        this.uiInfo = null;
-        this.createPause();
         
         // Selection
         this.select();
@@ -126,6 +126,12 @@ public class StateBattle extends State
         this.addTerrain(new Node(10, 2), Drawing.flipImage(tilesetTree.getTileAt(1, 0)), -22, -30);
         this.addTerrain(new Node(10, 2), Drawing.flipImage(tilesetTree.getTileAt(0, 0)), +22, -12);
         this.addTerrain(new Node(10, 2), tilesetTree.getTileAt(1, 0));
+        
+        // Interface
+        this.uiInfo = null;
+        this.interfaceEntity();
+        this.interfaceForce();
+        this.interfacePause();
     }
     
     private void advance()
@@ -164,12 +170,11 @@ public class StateBattle extends State
         this.gfxTerrain.add(new Terrain(this, node, image, offsetX, offsetY));
     }
     
-    private void createPause()
+    private Force getForcePlayer()
     {
-        this.uiPause = new PanelMenu(new Rectangle(258, 184, 850, 400));
-        this.uiPause.addOption("RESUME", 50, 50);
-        this.uiPause.addOption("OPTIONS", 50, 200);
-        this.uiPause.addOption("QUIT", 50, 350);
+        return this.force.get(0);
+        // NOTE: we need to pay attention to the account details of the player
+        // multiplayer games will have different player forces
     }
     
     private Node getNode(Point point)
@@ -303,10 +308,28 @@ public class StateBattle extends State
         if(this.uiInfo != null) {this.uiInfo = null;}
     }
     
+    private void interfaceEntity()
+    {
+        this.uiEntity = new PanelEntity(this, this.getForcePlayer(), Engine.getAccount());
+    }
+    
     private String interfaceFind(Point point)
     {
         //if(this.uiStats.intersect(point)) {return "STATS";}
         return "";
+    }
+    
+    private void interfaceForce()
+    {
+        this.uiForce = new PanelForce(this, this.getForcePlayer(), Engine.getAccount());
+    }
+    
+    private void interfacePause()
+    {
+        this.uiPause = new PanelMenu(new Rectangle(258, 184, 850, 400));
+        this.uiPause.addOption("RESUME", 50, 50);
+        this.uiPause.addOption("OPTIONS", 50, 200);
+        this.uiPause.addOption("QUIT", 50, 350);
     }
     
     public boolean isVisible(Entity entity)
@@ -420,6 +443,8 @@ public class StateBattle extends State
     
     private void renderInterface(Graphics g)
     {
+        if(this.uiEntity != null) {this.uiEntity.render(g);}
+        if(this.uiForce != null) {this.uiForce.render(g);}
         if(this.uiInfo != null) {this.uiInfo.render(g);}
     }
     
@@ -467,7 +492,11 @@ public class StateBattle extends State
         // Select Unit
         this.selectActive = true;
         this.selectUnit = unit;
-        this.selectUnitAction = unit.getAction();
+        if(this.selectUnit.getStatsCondition("ENERGY").getValue() > 0)
+        {
+            this.selectUnitAction = unit.getAction();
+        }
+        else {this.selectUnitAction = null;}
     }
     
     private void selectNull()
