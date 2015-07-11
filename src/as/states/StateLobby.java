@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-public class StateLobby extends State
+public class StateLobby extends StateOld
 {
 
     public StateLobby()

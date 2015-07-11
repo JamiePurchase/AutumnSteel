@@ -12,7 +12,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-public class StateOptions extends State
+public class StateOptions extends StateOld
 {
     private Frame frame;
     private boolean listenTouch;
@@ -74,7 +74,7 @@ public class StateOptions extends State
     {
         if(this.optionDone.getCollide(e.getPoint()))
         {
-            Engine.setState(new StateTitle());
+            //Engine.setState(new StateTitle());
         }
     }
     

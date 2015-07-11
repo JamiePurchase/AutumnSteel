@@ -21,7 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
-public class StateTitle extends State
+public class StateTitle extends StateOld
 {
     // Listeners
     private boolean listenTouch;
@@ -152,7 +152,7 @@ public class StateTitle extends State
         if(this.optionSelectID == 2) {Tutorial.executeTutorial();}
         
         // Options
-        if(this.optionSelectID == 3) {Engine.setState(new StateOptions());}
+        //if(this.optionSelectID == 3) {Engine.setState(new StateOptions());}
     }
     
     public void touch(MouseEvent e, boolean p)

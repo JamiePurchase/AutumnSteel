@@ -1,5 +1,6 @@
 package as.gfx;
 
+import as.battle.Node;
 import java.awt.image.BufferedImage;
 
 public class Tileset
@@ -29,6 +30,18 @@ public class Tileset
     public int getImageWidth()
     {
         return this.tileWide;
+    }
+    
+    public BufferedImage getImageAt(int posX, int posY)
+    {
+        return this.tileSheet.getSubimage(posX, posY, this.tileWide, this.tileHigh);
+    }
+    
+    public BufferedImage getTileAtNode(int posX, int posY)
+    {
+        int imageX = posX * 50;
+        int imageY = posY * 75;
+        return this.tileSheet.getSubimage(imageX, imageY, this.tileWide, this.tileHigh);
     }
     
     public BufferedImage getTileAt(int col, int row)

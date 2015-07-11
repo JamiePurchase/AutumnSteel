@@ -18,7 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
 
-public class StateLogin extends State
+public class StateLogin extends StateOld
 {
     private String message;
     private Textbox inputUsername;
@@ -53,7 +53,7 @@ public class StateLogin extends State
     
     public void submit()
     {
-        message = "Logging in...";
+        /*message = "Logging in...";
         listenTouch = false;
         listenType = false;
         String response = "";
@@ -80,8 +80,8 @@ public class StateLogin extends State
             if(responseArray[0].equals("SUCCESS"))
             {
                 int accountID = Integer.parseInt(responseArray[1]);
-                Engine.setAccount(new Account(accountID));
-                Engine.setState(new StateTitle());
+                //Engine.setAccount(new Account(accountID));
+                //Engine.setState(new StateTitle());
             }
         }
         catch (IOException ex)
@@ -89,7 +89,7 @@ public class StateLogin extends State
             Logger.getLogger(StateLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
         listenTouch = true;
-        listenType = true;
+        listenType = true;*/
     }
     
     public void tick()

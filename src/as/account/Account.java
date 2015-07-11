@@ -1,6 +1,5 @@
 package as.account;
 
-import as.debug.Console;
 import as.server.Request;
 import as.states.StateTitle;
 import java.util.logging.Level;
@@ -12,11 +11,13 @@ public class Account
     private String username;
     private String location;
     //private timestamp online;
-    private Banner banner;
+    //private Banner banner;
     
-    public Account(int id)
+    public Account(int id, String username, String location)
     {
         this.accountID = id;
+        this.username = username;
+        this.location = location;
     }
     
     public int getAccountID()
@@ -26,13 +27,8 @@ public class Account
     
     public void updateOnline()
     {
-        try
-        {
-            new Request("updateOnline", "accountID=" + this.accountID).get();
-        }
-        catch (Exception ex)
-        {
-            Logger.getLogger(StateTitle.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        try {new Request("updateOnline", "accountID=" + this.accountID).get();}
+        catch (Exception e) {System.out.println(e);}
     }
+
 }

@@ -8,11 +8,13 @@ import as.states.State;
 import as.states.StateBattle;
 import as.states.StateInit;
 import as.states.StateLogin;
+import as.states.StateMenu;
 import as.states.StateTitle;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferStrategy;
 import java.util.logging.Level;
@@ -35,30 +37,33 @@ public class Engine extends JPanel implements Runnable
     private static Point mousePoint;
     private static State state;
     private static Account account;
+    
+    // Development Mode
+    private static boolean devActive = false;
 
     public Engine()
     {
         // Main Settings
-        this.width = 1366;
-        this.height = 768;
+        width = 1366;
+        height = 768;
 
         // Input Devices
-        this.keyboard = new Keyboard();
-        this.mouse = new Mouse();
+        keyboard = new Keyboard();
+        mouse = new Mouse();
     }
 
     private void init()
     {
         // Create Display
-        this.display = new Display();
+        display = new Display();
 
         // Initial State
         //this.setState(new StateInit());
         
         // Temp
-        /*this.setAccount(new Account(1));
-        this.setState(new StateTitle());*/
-        this.setState(new StateBattle());
+        //setState(new StateInit());
+        //setState(new StateMenu());
+        setState(new StateBattle());
     }
     
     public static Account getAccount()
@@ -74,6 +79,11 @@ public class Engine extends JPanel implements Runnable
     public static String getAppVersion()
     {
         return appVersion;
+    }
+    
+    public static boolean getDevActive()
+    {
+        return devActive;
     }
     
     public static Keyboard getKeyboard()
@@ -100,14 +110,25 @@ public class Engine extends JPanel implements Runnable
     {
         return state;
     }
+    
+    public static void inputKey(String key, String action)
+    {
+        if(key.equals("ESCAPE")) {System.exit(0);}
+        else {if(getState() != null) {getState().inputKey(key, action);}}
+    }
+    
+    public static void inputMouse(MouseEvent e, String action, String button)
+    {
+        if(getState() != null) {getState().inputMouse(e, action, button);}
+    }
 
     private void render()
     {
         // Buffer strategy
-        bs = this.display.getCanvas().getBufferStrategy();
+        bs = display.getCanvas().getBufferStrategy();
         if(bs == null)
         {
-            this.display.getCanvas().createBufferStrategy(3);
+            display.getCanvas().createBufferStrategy(3);
             return;
         }
 
@@ -119,7 +140,7 @@ public class Engine extends JPanel implements Runnable
         // Graphics draw
         if(this.state != null)
         {
-            this.getState().render(g);
+            getState().render(g);
         }
 
         // Graphics done
@@ -181,11 +202,12 @@ public class Engine extends JPanel implements Runnable
         state = newState;
     }
 
-    public synchronized void start()
+    public synchronized void start(boolean dev)
     {
-        if(running==false)
+        if(running == false)
         {
             running = true;
+            devActive = dev;
             thread = new Thread(this);
             thread.start();
         }
@@ -193,7 +215,7 @@ public class Engine extends JPanel implements Runnable
 
     public synchronized void stop()
     {
-        if(running==true)
+        if(running == true)
         {
             try
             {
@@ -212,11 +234,7 @@ public class Engine extends JPanel implements Runnable
         //tickNetwork();
 
         // State
-        this.getState().tick();
+        if(getState() != null) {getState().tick();}
     }
-    
-    public static void touch(MouseEvent e, boolean pressed)
-    {
-        getState().touch(e, pressed);
-    }
+
 }

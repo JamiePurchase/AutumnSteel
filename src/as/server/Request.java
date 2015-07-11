@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class Request
 {
@@ -21,28 +22,27 @@ public class Request
         this.url = "http://autumn-steel.co.nf/remote/" + url + ".php" + "?" + variables;
     }
     
-    public String get() throws IOException
+    public ArrayList<String> get() throws IOException
     {
         // Request
         URL http = new URL(this.url);
-        BufferedReader webRead = new BufferedReader(new InputStreamReader(http.openStream()));
-        //Console.write("Server Request: " + http);
+        BufferedReader read = new BufferedReader(new InputStreamReader(http.openStream()));
+        Console.write("Server Request: " + http);
         
         // Compile the data into a string
-        String webData = "";
+        ArrayList<String> data = new ArrayList();
         String webLine;
-        int webRows = 0;
-        while((webLine = webRead.readLine()) != null)
+        while((webLine = read.readLine()) != null)
         {
-            //Console.write(webLine);
-            webData = webData + webLine;
-            webRows += 1;
+            System.out.println(webLine);
+            data.add(webLine);
         }
         
         // Close the stream
-        webRead.close();
+        read.close();
+
         //Console.write("Request Completed");
-        return webData;
+        return data;
     }
 
 }

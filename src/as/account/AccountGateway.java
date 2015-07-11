@@ -1,11 +1,26 @@
 package as.account;
 
+import as.server.Request;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class AccountGateway
 {
-    public Account loadAccount(int accountID)
+
+    public static Account loadAccount(int accountID)
     {
-        // NOTE: need to ask the server for the account details
-        // account object (alternate?) constructor should take in all details
-        return new Account(accountID);
+        ArrayList<String> data;
+        try
+        {
+            data = new Request("accountLoad", "accountID=" + accountID).get();
+            //if(data)
+            //return new Account(Integer.parseInt(data.get(0)), data.get(1), data.get(2));
+            return new Account(0, "Jamie", "UK");
+        }
+        catch (IOException e) {System.out.println(e);}
+        return null;
     }
+
 }

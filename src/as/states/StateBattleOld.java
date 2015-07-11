@@ -16,7 +16,7 @@ import java.awt.event.MouseEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class StateBattleOld extends State
+public class StateBattleOld extends StateOld
 {
     // Battle
     private BattleOld battle;

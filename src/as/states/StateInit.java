@@ -1,30 +1,64 @@
 package as.states;
 
-import as.account.Account;
+import as.account.AccountGateway;
 import as.app.Engine;
-import as.debug.Console;
 import as.gfx.Colour;
 import as.gfx.Drawing;
 import as.gfx.Fonts;
 import as.gfx.Text;
 import as.server.Request;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class StateInit extends State
 {
-    private int action;
-    private String actionString;
-    private int actionTick;
-    
+    private String action = "LOAD";
+
     public StateInit()
     {
-        this.action = 1;
-        this.actionString = "Connecting to server...";
-        this.actionTick = 0;
+        //System.out.println(new File(".").getAbsolutePath());
+        //this.configFind();
+
+        //System.out.println(AccountGateway.loadAccount(0));
+        
+        // TEMP
+        try {System.out.println(new Request("accountLoad", "accountID=1").get());}
+        catch (IOException e) {System.out.println(e);}
+        System.exit(0);
+    }
+    
+    private void configFind()
+    {
+        
+    }
+    
+    public void inputKeyPress(String key)
+    {
+        //
+    }
+    
+    public void inputKeyRelease(String key)
+    {
+        //
+    }
+    
+    public void inputMouseClickL(MouseEvent e)
+    {
+        //
+    }
+    
+    public void inputMouseClickR(MouseEvent e)
+    {
+        //
+    }
+    
+    public void inputMouseMove(MouseEvent e)
+    {
+        //
     }
     
     public void render(Graphics g)
@@ -41,7 +75,7 @@ public class StateInit extends State
     {
         g.setFont(Fonts.getFont("Standard"));
         g.setColor(Colour.getColor("RED"));
-        Text.write(g, this.actionString, 683, 718, "CENTER");
+        //Text.write(g, this.actionString, 683, 718, "CENTER");
     }
     
     public void renderInformation(Graphics g)
@@ -54,13 +88,13 @@ public class StateInit extends State
     
     public void tick()
     {
-        this.actionTick += 1;
+        //this.actionTick += 1;
         tickAction();
     }
     
     public void tickAction()
     {
-        if(this.action == 1)
+        /*if(this.action == 1)
         {
             if(this.actionTick > 4)
             {
@@ -91,19 +125,9 @@ public class StateInit extends State
                 
                 // Temp
                 Engine.setAccount(new Account(1));
-                Engine.setState(new StateTitle());
+                //Engine.setState(new StateTitle());
             }
-        }
-    }
-    
-    public void touch(MouseEvent e, boolean p)
-    {
-        
-    }
-    
-    public void type(KeyEvent e)
-    {
-        
+        }*/
     }
 
 }

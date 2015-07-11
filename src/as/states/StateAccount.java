@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-public class StateAccount extends State
+public class StateAccount extends StateOld
 {
 
     public StateAccount()
