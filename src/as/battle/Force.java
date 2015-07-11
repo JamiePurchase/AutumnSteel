@@ -97,8 +97,9 @@ public class Force
         if(check != "") {return check;}
         
         // Nothing was Selected
-        this.selectNull();
-        this.battle.select();
+        /*this.selectNull();
+        this.battle.select();*/
+        // NOTE: need to reconsider this section (causing selectNull to occur when it shouldn't)
         return "";
     }
     

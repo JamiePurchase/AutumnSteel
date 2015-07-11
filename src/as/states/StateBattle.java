@@ -7,6 +7,7 @@ import as.battle.EntityUnit;
 import as.battle.Force;
 import as.battle.Node;
 import as.battle.Panel;
+import as.battle.PanelMenu;
 import as.battle.Terrain;
 import as.battle.action.Unit;
 import as.file.FileASB;
@@ -55,6 +56,7 @@ public class StateBattle extends State
     // Interface
     private Panel uiInfo;
     // NOTE: use a subclass of panel with text and pictures?
+    private PanelMenu uiPause;
     
     // Selection
     public boolean selectActive;
@@ -89,6 +91,7 @@ public class StateBattle extends State
         
         // Interface
         this.uiInfo = null;
+        this.createPause();
         
         // Selection
         this.select();
@@ -161,6 +164,14 @@ public class StateBattle extends State
         this.gfxTerrain.add(new Terrain(this, node, image, offsetX, offsetY));
     }
     
+    private void createPause()
+    {
+        this.uiPause = new PanelMenu(new Rectangle(258, 184, 850, 400));
+        this.uiPause.addOption("RESUME", 50, 50);
+        this.uiPause.addOption("OPTIONS", 50, 200);
+        this.uiPause.addOption("QUIT", 50, 350);
+    }
+    
     private Node getNode(Point point)
     {
         int posX = 0;
@@ -183,9 +194,21 @@ public class StateBattle extends State
         return this.gfxScrollX;
     }
     
+    public int getScrollXMax()
+    {
+        // NOTE: need to consider the screen width and total board size
+        return 10;
+    }
+    
     public int getScrollY()
     {
         return this.gfxScrollY;
+    }
+    
+    public int getScrollYMax()
+    {
+        // NOTE: need to consider the screen height and total board size
+        return 10;
     }
     
     private Range getScrollRangeX()
@@ -215,7 +238,15 @@ public class StateBattle extends State
     
     public void inputKeyPress(String key)
     {
-        //
+        if(this.uiPause.getActive()) {this.uiPause.inputKey(key);}
+        else
+        {
+            if(key.equals("ESCAPE")) {this.uiPause.setActive(true);}
+            if(key.equals("UP")) {this.setScroll("N");}
+            if(key.equals("DOWN")) {this.setScroll("S");}
+            if(key.equals("LEFT")) {this.setScroll("W");}
+            if(key.equals("RIGHT")) {this.setScroll("E");}
+        }
     }
     
     public void inputKeyRelease(String key)
@@ -230,6 +261,7 @@ public class StateBattle extends State
         
         // TEMP
         System.out.println("*** MOUSE: LEFT CLICK AT " + e.getPoint());
+        System.out.println("selectActive: " + this.selectActive + ", selectUnit: " + this.selectUnit);
         for(int x = 0; x < this.force.size(); x++)
         {
             this.force.get(x).inputClick(e.getPoint());
@@ -307,12 +339,29 @@ public class StateBattle extends State
     
     public void render(Graphics g)
     {
+        if(this.uiPause.getActive())
+        {
+            if(this.uiPause.getBackground() != null) {this.uiPause.render(g);}
+            else
+            {
+                renderApp(uiPause.getBackgroundNew());
+                this.uiPause.render(g);
+            }
+        }
+        else {renderApp(g);}
+    }
+    
+    private void renderApp(Graphics g)
+    {
         this.renderBackground(g);
         //this.renderGrid(g);
         this.renderTerrain(g);
         this.renderHighlight(g);
         this.renderForce(g);
         this.renderInterface(g);
+        
+        // Compile the canvas into
+        //if(save) {g.dispose();}
     }
     
     private void renderBackground(Graphics g)
@@ -423,6 +472,9 @@ public class StateBattle extends State
     
     private void selectNull()
     {
+        // Debug
+        System.out.println("*** SELECT NULL WAS CALLED - " + Thread.currentThread().getStackTrace()[3].getMethodName());
+        
         // Unselect Entites
         if(this.selectBuilding != null) {this.selectBuilding.select(false);}
         if(this.selectBuilding != null) {this.selectUnit.select(false);}
@@ -432,6 +484,24 @@ public class StateBattle extends State
         this.selectBuilding = null;
         this.selectUnit = null;
         this.selectUnitAction = new ArrayList();
+    }
+    
+    public void setScroll(String direction)
+    {
+        if(direction.equals("E") && this.gfxScrollX < this.getScrollXMax()) {this.gfxScrollX += 1;}
+        else if(direction.equals("W") && this.gfxScrollX > 0) {this.gfxScrollX -= 1;}
+        else if(direction.equals("N") && this.gfxScrollY < this.getScrollYMax()) {this.gfxScrollY += 1;}
+        else if(direction.equals("S") && this.gfxScrollY > 0) {this.gfxScrollY -= 1;}
+    }
+    
+    public void setScrollX(int pos)
+    {
+        this.gfxScrollX = pos;
+    }
+    
+    public void setScrollY(int pos)
+    {
+        this.gfxScrollY = pos;
     }
     
     public void tick()

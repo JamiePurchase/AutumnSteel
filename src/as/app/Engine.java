@@ -113,8 +113,9 @@ public class Engine extends JPanel implements Runnable
     
     public static void inputKey(String key, String action)
     {
-        if(key.equals("ESCAPE")) {System.exit(0);}
-        else {if(getState() != null) {getState().inputKey(key, action);}}
+        /*if(key.equals("ESCAPE")) {System.exit(0);}
+        else {if(getState() != null) {getState().inputKey(key, action);}}*/
+        getState().inputKey(key, action);
     }
     
     public static void inputMouse(MouseEvent e, String action, String button)

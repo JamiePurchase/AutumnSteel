@@ -78,7 +78,7 @@ public class EntityUnit extends Entity
     
     public int getDrawPosX()
     {
-        return this.getNode().getPosX() + this.getDrawOffsetY();
+        return this.getNode().getPosX() + this.getDrawOffsetX();
     }
     
     public int getDrawPosY()

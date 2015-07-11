@@ -12,13 +12,18 @@ public class Panel
     {
         this.rect = rect;
     }
+    
+    public Rectangle getRect()
+    {
+        return this.rect;
+    }
 
     public void render(Graphics g)
     {
         this.renderBackground(g);
     }
 
-    private void renderBackground(Graphics g)
+    public void renderBackground(Graphics g)
     {
         // Shadow
         g.setColor(Colour.getColor("PANEL_SHADOW"));
