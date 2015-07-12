@@ -4,6 +4,7 @@ import as.battle.stats.Value;
 import as.battle.stats.ValuePortion;
 import as.battle.ui.BarHealth;
 import as.gfx.Drawing;
+import as.gfx.Tileset;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -72,8 +73,13 @@ public class EntityUnit extends Entity
     
     public BufferedImage getDrawImage()
     {
-        if(this.direction.equals("W")) {return Drawing.flipImage(this.visual);}
-        return this.visual;
+        // TEMPORARY
+        return Drawing.getImage("units(old)/Samurai/1.png").getSubimage(this.getAnimFrame() * 100, 0, 100, 100);
+        
+        // NOTE: this currently provides a single static image
+        // there must be arrays of multiple frames for several different actions
+        //if(this.direction.equals("W")) {return Drawing.flipImage(this.visual);}
+        //return this.visual;
     }
     
     public int getDrawPosX()
@@ -121,12 +127,17 @@ public class EntityUnit extends Entity
         // NOTE: do we need to remove selection after moving?
         // we should certainly not do so if the unit has more energy
         //this.select(false);
+        this.getForce().getBattle().selectUnitActionClear();
     }
     
     public void render(Graphics g)
     {
         super.render(g);
         this.renderBarHealth(g);
+        
+        // TESTING
+        /*g.drawImage(Drawing.resize(this.getDrawImage(), 75, 75), this.getDrawPosX() - 5, this.getDrawPosY() - 20, null);
+        g.drawImage(Drawing.resize(this.getDrawImage(), 75, 75), this.getDrawPosX() + 20, this.getDrawPosY() + 30, null);*/
     }
     
     public void renderBarHealth(Graphics g)
@@ -164,11 +175,6 @@ public class EntityUnit extends Entity
     public void setStatsCondition(String index, int value)
     {
         this.getStatsCondition(index).setValue(value);
-    }
-    
-    public void tick()
-    {
-        //
     }
 
 }

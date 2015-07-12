@@ -13,6 +13,7 @@ public class Force
     private ArrayList<EntityBuilding> building;
     private ArrayList<EntityFlag> flag;
     private ArrayList<EntityUnit> unit;
+    private int supplyPercent, supplyCount;
 
     public Force(StateBattle battle, String name)
     {
@@ -21,6 +22,8 @@ public class Force
         this.building = new ArrayList();
         this.flag = new ArrayList();
         this.unit = new ArrayList();
+        this.supplyPercent = 0;
+        this.supplyCount = 0;
     }
     
     public int addBuilding(String name, Node node, String type, String visual, int offsetX, int offsetY)
@@ -35,10 +38,10 @@ public class Force
         return this.flag.size();
     }
     
-    public int addUnit(String name, Node node, String type, String visual, String direction)
+    public EntityUnit addUnit(String name, Node node, String type, String visual, String direction)
     {
         this.unit.add(new EntityUnit(this, name, node, type, visual, direction));
-        return this.unit.size();
+        return this.unit.get(this.unit.size() - 1);
     }
     
     public StateBattle getBattle()
@@ -73,6 +76,21 @@ public class Force
     public EntityFlag getFlag(int pos)
     {
         return this.flag.get(pos);
+    }
+    
+    public int getSupplyCount()
+    {
+        return this.supplyCount;
+    }
+    
+    public String getSupplyCountAsString()
+    {
+        return "" + this.supplyCount;
+    }
+    
+    public int getSupplyPercent()
+    {
+        return this.supplyPercent;
     }
     
     public ArrayList<EntityUnit> getUnit()
@@ -182,6 +200,7 @@ public class Force
     public void tick()
     {
         this.tickFlag();
+        this.tickUnit();
     }
     
     private void tickFlag()
@@ -189,6 +208,14 @@ public class Force
         for(int x = 0; x < this.flag.size(); x++)
         {
             this.flag.get(x).tick();
+        }
+    }
+    
+    private void tickUnit()
+    {
+        for(int x = 0; x < this.unit.size(); x++)
+        {
+            this.unit.get(x).tick();
         }
     }
 

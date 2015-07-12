@@ -11,6 +11,11 @@ public abstract class Entity
     private boolean select;
     private String name;
     private Node node;
+    
+    // Animation
+    private boolean animActive;
+    private int animTickNow, animTickMax;
+    private int animFrameNow, animFrameMax;
 
     public Entity(Force force, String name, Node node)
     {
@@ -18,6 +23,14 @@ public abstract class Entity
         this.select = false;
         this.name = name;
         this.node = node;
+        
+        // Animation
+        this.animActive = false;
+    }
+    
+    public int getAnimFrame()
+    {
+        return this.animFrameNow;
     }
     
     public abstract BufferedImage getDrawImage();
@@ -94,11 +107,42 @@ public abstract class Entity
         this.getForce().getBattle().select();
     }
     
+    public void setAnimation(boolean active)
+    {
+        this.animActive = active;
+    }
+    
+    public void setAnimation(boolean active, int tickMax, int frameMax)
+    {
+        this.animActive = active;
+        this.animTickNow = 0;
+        this.animTickMax = tickMax;
+        this.animFrameNow = 0;
+        this.animFrameMax = frameMax;
+    }
+    
     public void setNode(Node location)
     {
         this.node = location;
     }
     
-    public abstract void tick();
+    public void tick()
+    {
+        if(this.animActive) {this.tickAnim();}
+    }
+    
+    public void tickAnim()
+    {
+        this.animTickNow ++;
+        if(this.animTickNow == this.animTickMax)
+        {
+            this.animTickNow = 0;
+            this.animFrameNow ++;
+            if(this.animFrameNow == this.animFrameMax)
+            {
+                this.animFrameNow = 0;
+            }
+        }
+    }
 
 }

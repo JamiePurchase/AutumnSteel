@@ -1,6 +1,7 @@
 package as.app;
 
 import as.account.Account;
+import as.account.Title;
 import as.debug.Console;
 import as.input.Keyboard;
 import as.input.Mouse;
@@ -54,6 +55,9 @@ public class Engine extends JPanel implements Runnable
 
     private void init()
     {
+        // Account (TEMP)
+        setAccount(new Account(0, "JAMIE", "UK", new Title(0, "Developer", "Unknown")));
+        
         // Create Display
         display = new Display();
 

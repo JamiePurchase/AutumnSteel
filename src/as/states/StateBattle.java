@@ -22,6 +22,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -56,6 +57,7 @@ public class StateBattle extends State
     private ArrayList<Force> force;
     
     // Interface
+    private HashMap<String, Polygon> uiZones;
     private Panel uiInfo;
     // NOTE: use a subclass of panel with text and pictures?
     private PanelEntity uiEntity;
@@ -132,6 +134,7 @@ public class StateBattle extends State
         this.interfaceEntity();
         this.interfaceForce();
         this.interfacePause();
+        this.interfaceZones();
     }
     
     private void advance()
@@ -267,24 +270,37 @@ public class StateBattle extends State
         // TEMP
         System.out.println("*** MOUSE: LEFT CLICK AT " + e.getPoint());
         System.out.println("selectActive: " + this.selectActive + ", selectUnit: " + this.selectUnit);
-        for(int x = 0; x < this.force.size(); x++)
+        
+        // Account Zone
+        if(this.uiZones.get("PANE_FORCE").contains(e.getPoint()))
         {
-            this.force.get(x).inputClick(e.getPoint());
+            //this.uiForce.input
+            return;
         }
         
-        /*for(int x = 0; x < this.inputMouseNexus.size(); x++)
+        // Selection Zone
+        if(this.uiZones.get("PANE_ENTITY").contains(e.getPoint()))
         {
-            if(this.inputMouseNexus.get(x).intersect(e.getPoint()))
-            {
-                //String select = this.inputMouseNexus.get(x)...
-            }
-        }*/
+            //this.uiEntity.input
+            return;
+        }
         
-        /*if(new Rectangle(520, 367, 60, 66).contains(e.getPoint()))
+        // World Zone
+        if(this.uiZones.get("PANE_WORLD").contains(e.getPoint()))
         {
-            //this.tempHighlight = true;
-            this.force.get(0).getUnit(0).select();
-        }*/
+            Nexus ui = interfaceNexus(e.getPoint());
+            if(ui != null)
+            {
+                //ui.
+                return;
+            }
+
+            // TEMP
+            for(int x = 0; x < this.force.size(); x++)
+            {
+                this.force.get(x).inputClick(e.getPoint());
+            }
+        }
     }
     
     public void inputMouseClickR(MouseEvent e)
@@ -298,6 +314,7 @@ public class StateBattle extends State
             
             // TESTING
             this.selectUnit.move(new Node(16, 4));
+            // each action has a node that will be passed along
         }
     }
 
@@ -313,15 +330,15 @@ public class StateBattle extends State
         this.uiEntity = new PanelEntity(this, this.getForcePlayer(), Engine.getAccount());
     }
     
-    private String interfaceFind(Point point)
-    {
-        //if(this.uiStats.intersect(point)) {return "STATS";}
-        return "";
-    }
-    
     private void interfaceForce()
     {
         this.uiForce = new PanelForce(this, this.getForcePlayer(), Engine.getAccount());
+    }
+    
+    private Nexus interfaceNexus(Point point)
+    {
+        //if(this.uiStats.intersect(point)) {return "STATS";}
+        return null;
     }
     
     private void interfacePause()
@@ -330,6 +347,14 @@ public class StateBattle extends State
         this.uiPause.addOption("RESUME", 50, 50);
         this.uiPause.addOption("OPTIONS", 50, 200);
         this.uiPause.addOption("QUIT", 50, 350);
+    }
+    
+    private void interfaceZones()
+    {
+        this.uiZones = new HashMap();
+        this.uiZones.put("PANE_FORCE", new Polygon(new int[] {0, 0, 300, 340, 365, 400, 1366, 1366}, new int[] {0, 130, 125, 115, 65, 50, 50, 0}, 8));
+        this.uiZones.put("PANE_ENTITY", new Polygon(new int[] {0, 0, 1366, 1366}, new int[] {648, 768, 768, 648}, 4));
+        this.uiZones.put("PANE_WORLD", new Polygon(new int[] {0, 300, 340, 365, 400, 1366, 1366, 0}, new int[] {130, 125, 115, 65, 50, 50, 648, 648}, 8));
     }
     
     public boolean isVisible(Entity entity)
@@ -348,7 +373,8 @@ public class StateBattle extends State
         // TEMP: Force 1
         Force force1 = new Force(this, "Player");        
         force1.addUnit("Archer", new Node(14, 4), "Archer", "units(old)/archer/0.png", "E");
-        force1.addUnit("Samurai", new Node(12, 6), "Samurai", "units(old)/samurai/0.png", "E");
+        //force1.addUnit("Samurai", new Node(12, 6), "Samurai", "units(old)/samurai/0.png", "E");
+        force1.addUnit("Samurai", new Node(12, 6), "Samurai", "units(old)/samurai/1.png", "E").setAnimation(true, 12, 6);
         force1.addBuilding("Build1", new Node(16, 6), "Build1", "buildings/hut.png", 0, -50);
         force1.addBuilding("Tower", new Node(8, 8), "Build1", "buildings/tower.png", 0, -150);
         force1.addFlag(new Node(10, 4), new Tileset("flagPurple", Drawing.getImage("forces/flagPurple.png"), 100, 100, 4, 1));
@@ -372,6 +398,10 @@ public class StateBattle extends State
             }
         }
         else {renderApp(g);}
+        
+        // Highlighted Actions and Tooltips
+        this.renderHighlight(g);
+        this.renderTooltip(g);
     }
     
     private void renderApp(Graphics g)
@@ -379,12 +409,8 @@ public class StateBattle extends State
         this.renderBackground(g);
         //this.renderGrid(g);
         this.renderTerrain(g);
-        this.renderHighlight(g);
         this.renderForce(g);
         this.renderInterface(g);
-        
-        // Compile the canvas into
-        //if(save) {g.dispose();}
     }
     
     private void renderBackground(Graphics g)
@@ -407,20 +433,6 @@ public class StateBattle extends State
         g.drawImage(this.gfxGrid, 0, 0, null);
     }
     
-    private void renderHighlight(Graphics g)
-    {
-        //System.out.println("*** RENDER HIGHLIGHT: " + this.selectUnit);
-        // NOTE: the highlighted nodes arrayList should probably be a property of this class
-        // the list resets when entities are selected or actions occur
-        if(this.selectUnit != null && this.selectUnitAction.size() > 0)
-        {
-            for(int x = 0; x < this.selectUnitAction.size(); x++)
-            {
-                this.selectUnitAction.get(x).render(g);
-            }
-        }
-    }
-    
     private void renderGridDraw(Graphics g)
     {
         BufferedImage tile = Drawing.getImage("forces/tile2.png");
@@ -441,11 +453,24 @@ public class StateBattle extends State
         this.gfxGrid = image;
     }
     
+    private void renderHighlight(Graphics g)
+    {
+        //System.out.println("*** RENDER HIGHLIGHT: " + this.selectUnit);
+        // NOTE: the highlighted nodes arrayList should probably be a property of this class
+        // the list resets when entities are selected or actions occur
+        if(this.selectUnit != null && this.selectUnitAction != null)
+        {
+            for(int x = 0; x < this.selectUnitAction.size(); x++)
+            {
+                this.selectUnitAction.get(x).render(g);
+            }
+        }
+    }
+    
     private void renderInterface(Graphics g)
     {
         if(this.uiEntity != null) {this.uiEntity.render(g);}
         if(this.uiForce != null) {this.uiForce.render(g);}
-        if(this.uiInfo != null) {this.uiInfo.render(g);}
     }
     
     private void renderTerrain(Graphics g)
@@ -464,6 +489,11 @@ public class StateBattle extends State
         }
         g2d.dispose();
         this.gfxTerrainImage = image;
+    }
+    
+    private void renderTooltip(Graphics g)
+    {
+        if(this.uiInfo != null) {this.uiInfo.render(g);}
     }
     
     public void select()
@@ -513,6 +543,11 @@ public class StateBattle extends State
         this.selectBuilding = null;
         this.selectUnit = null;
         this.selectUnitAction = new ArrayList();
+    }
+    
+    public void selectUnitActionClear()
+    {
+        this.selectUnitAction = null;
     }
     
     public void setScroll(String direction)

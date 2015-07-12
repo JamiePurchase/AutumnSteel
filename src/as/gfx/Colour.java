@@ -14,9 +14,13 @@ public class Colour
         if(colour == "RED2") {return getColorRGB(45, 0, 0);}
         
         // NEW
+        if(colour == "BUTTON_BACKGROUND_FORCE") {return getColorRGB(220, 190, 160);}
+        if(colour == "BUTTON_HOVER_FORCE") {return getColorRGB(230, 200, 170);}
+        if(colour == "BUTTON_BORDER_FORCE") {return getColorRGB(175, 125, 100);}
+        if(colour == "BUTTON_TEXT_FORCE") {return getColorRGB(175, 125, 100);}
+        if(colour == "DEV_NEXUS") {return getColorRGB(50, 125, 75);}
         if(colour == "PANEL_BACKGROUND_FORCE") {return getColorRGB(200, 170, 140);}
         if(colour == "PANEL_BORDER_FORCE") {return getColorRGB(175, 125, 100);}
-        if(colour == "DEV_NEXUS") {return getColorRGB(50, 125, 75);}
         if(colour == "MENU_BACKGROUND") {return getColorRGB(240, 228, 184);}
         if(colour == "MENU_TEXT") {return getColorRGB(0, 0, 0);}
         if(colour == "PANEL_BACKGROUND") {return getColorRGB(255, 255, 255);}
